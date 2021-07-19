@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-my-text-input',
@@ -13,17 +13,30 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ]
 })
+
 export class MyTextInputComponent implements OnInit, ControlValueAccessor {
-  @Input() label!: string;
-  @Input() type: 'text' | 'password' | 'email' = 'text';
-  @Input() placeholder!: string;
+  @Input() label!: string
+  @Input() type: 'text' | 'password' | 'email' = 'text'
+  @Input() placeholder!: string
+  @Input() control!: FormControl
+  field!: string
+
+  id = Math.random()
 
   constructor() { }
 
+  ngOnInit(): void {
+  }
+
+  // Function to call when change
+  onChange = (value: any) => {}
+
   writeValue(obj: any): void {
+    this.field = obj
   }
 
   registerOnChange(fn: any): void {
+    this.onChange = fn
   }
 
   registerOnTouched(fn: any): void {
@@ -32,7 +45,27 @@ export class MyTextInputComponent implements OnInit, ControlValueAccessor {
   setDisabledState?(isDisabled: boolean): void {
   }
 
-  ngOnInit(): void {
+  
+
+  errors = {
+    minlength: 'Min length error',
+    required: 'Field is required',
+    email: 'Email is invalid'
+  } 
+
+  getErrors(): { type: string; message: string; }[] {
+
+    if (!this.control.errors) {
+      return []
+    }
+
+    return Object.keys(this.control.errors).map(errorType  => {
+        return {
+          type: errorType,
+          message: this.errors[errorType]
+        }
+      }
+    )
   }
 
 }
