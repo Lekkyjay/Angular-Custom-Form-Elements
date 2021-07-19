@@ -19,9 +19,16 @@ export class MyTextInputComponent implements OnInit, ControlValueAccessor {
   @Input() type: 'text' | 'password' | 'email' = 'text'
   @Input() placeholder!: string
   @Input() control!: FormControl
+
   field!: string
 
   id = Math.random()
+
+  errors = {
+    minlength: 'Min length error',
+    required: 'Field is required',
+    email: 'Email is invalid'
+  } 
 
   constructor() { }
 
@@ -43,14 +50,6 @@ export class MyTextInputComponent implements OnInit, ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-  }
-
-  
-
-  errors = {
-    minlength: 'Min length error',
-    required: 'Field is required',
-    email: 'Email is invalid'
   } 
 
   getErrors(): { type: string; message: string; }[] {

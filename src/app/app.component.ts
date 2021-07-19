@@ -19,8 +19,8 @@ export class AppComponent implements OnInit {
 
   private buildForm() {
     this.myForm = this.fb.group({
-      firstName: [null, [Validators.required, Validators.minLength(10)]],
-      lastName: [null, [Validators.required, Validators.minLength(10)]],
+      firstName: [null, [Validators.required, Validators.minLength(6)]],
+      lastName: [null, [Validators.required, Validators.minLength(6)]],
       email: [null, [Validators.required, Validators.email]],
       password: [null, Validators.required],
     });
